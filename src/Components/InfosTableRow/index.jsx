@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 function InfosTableRow() {
-    useEffect(() => {
-        const records = localStorage.getItem('Register');
-    }, []);
+    useEffect(() => {}, []);
     return (
         <tr>
             <td>1</td>
