@@ -5,15 +5,21 @@ export const StyledButton = styled(Button)`
     font-size: 1em;
     background-color: green;
     border-radius: 3px;
+    margin: 8px;
+    padding: 10px;
+    justify-self: end;
 `;
 export const Title = styled.h1`
     font-size: 1.5em;
     text-align: center;
 `;
-export const StyledForm = styled(Form)``;
+export const StyledForm = styled(Form)`
+    display: Grid;
+    padding: 10px;
+    margin: 8px;
+`;
 export const StyledContainer = styled(Container)`
-    width: 100vh;
-    height: 100vh;
-    background-color: #d9d9d9;
+    display: flex;
+    flex-direction: column;
 `;
 export const styledFormControl = styled(FormControl)``;

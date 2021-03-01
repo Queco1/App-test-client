@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FormLabel, FormControl, Row, Col, Jumbotron } from 'react-bootstrap';
-import { StyledButton, Title, StyledForm } from './styled';
+import { StyledButton, Title, StyledForm, StyledContainer } from './styled';
 
 function RegisterForm() {
     const [name, setName] = useState('');
@@ -14,20 +14,18 @@ function RegisterForm() {
 
     const handleSubmit = useCallback(() => {
         const register = { name, age, maritalStatus, CPF, state, city };
-        const allRegisters = localStorage.getItem('Register') ? [JSON.parse(localStorage.getItem('Register'))] : [];
-        console.log(allRegisters);
-        localStorage.setItem('Register', [...allRegisters, JSON.stringify(register)]);
+
+        localStorage.setItem('Register', JSON.stringify(register));
         history.push('/list');
     }, [name, age, maritalStatus, CPF, state, city]);
+
     return (
         <Jumbotron>
-            <StyledForm>
-                <Row>
-                    <Title>App de Teste </Title>
-                </Row>
-                <Row>
-                    <Col xs='6'>
-                        <FormLabel column sm='2'>
+            <StyledContainer>
+                <Title>App de Teste </Title>
+                <StyledForm>
+                    <Row>
+                        <FormLabel column sm='1'>
                             Nome:
                         </FormLabel>
                         <Col sm='3'>
@@ -39,9 +37,7 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                    <Col xs='6'>
-                        <Col column sm='2'>
+                        <Col column sm='1'>
                             <FormLabel>Idade:</FormLabel>
                         </Col>
                         <Col sm='1'>
@@ -53,11 +49,8 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs='6'>
-                        <Col column sm='2'>
+
+                        <Col column sm='1'>
                             <FormLabel>Estado Civil:</FormLabel>
                         </Col>
                         <Col sm='2'>
@@ -69,9 +62,8 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                    <Col xs='6'>
-                        <Col column sm='2'>
+
+                        <Col column sm='1'>
                             <FormLabel>CPF:</FormLabel>
                         </Col>
                         <Col sm='2'>
@@ -83,15 +75,13 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                </Row>
+                    </Row>
 
-                <Row>
-                    <Col xs='6'>
-                        <Col column sm='2'>
+                    <Row>
+                        <Col column sm='1'>
                             <FormLabel>Estado:</FormLabel>
                         </Col>
-                        <Col sm='1'>
+                        <Col sm='2'>
                             <FormControl
                                 required
                                 placeholder='Estado'
@@ -100,12 +90,11 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                    <Col xs='6'>
-                        <Col column sm='2'>
+
+                        <Col className='col-md-offset-3' column sm='1'>
                             <FormLabel>Cidade:</FormLabel>
                         </Col>
-                        <Col sm='3'>
+                        <Col sm='5'>
                             <FormControl
                                 required
                                 placeholder='Cidade'
@@ -114,16 +103,16 @@ function RegisterForm() {
                                 }}
                             />
                         </Col>
-                    </Col>
-                </Row>
-                <Row className='justify-content-md-center'>
-                    <Col xs lg='6'>
-                        <StyledButton variant='primary' type='submit' onClick={handleSubmit}>
-                            Salvar
-                        </StyledButton>
-                    </Col>
-                </Row>
-            </StyledForm>
+                    </Row>
+                    <Row>
+                        <Col className='col-md-offset-6 col-centered'>
+                            <StyledButton variant='primary' type='submit' onClick={handleSubmit}>
+                                Salvar
+                            </StyledButton>
+                        </Col>
+                    </Row>
+                </StyledForm>
+            </StyledContainer>
         </Jumbotron>
     );
 }
