@@ -1,15 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FormLabel, FormControl, Row, Col, Jumbotron } from 'react-bootstrap';
-import { StyledButton, Title, StyledForm, StyledContainer } from './styled';
+import { FormControl, Row, Col, Form } from 'react-bootstrap';
+import { StyledButton, Title, StyledContainer, StyledCard, StyledLabel } from './styled';
 
-function RegisterForm() {
-    const [name, setName] = useState('');
-    const [age, setAge] = useState('');
-    const [maritalStatus, setMaritalStatus] = useState('');
-    const [CPF, setCPF] = useState('');
-    const [state, setState] = useState('');
-    const [city, setCity] = useState('');
+function RegisterForm({ data }) {
+    const [name, setName] = useState(data?.name || '');
+    const [age, setAge] = useState(data?.age || '');
+    const [maritalStatus, setMaritalStatus] = useState(data?.maritalStatus || '');
+    const [CPF, setCPF] = useState(data?.CPF || '');
+    const [state, setState] = useState(data?.state || '');
+    const [city, setCity] = useState(data?.city || '');
     const history = useHistory();
 
     const handleSubmit = useCallback(() => {
@@ -20,25 +20,26 @@ function RegisterForm() {
     }, [name, age, maritalStatus, CPF, state, city]);
 
     return (
-        <Jumbotron>
+        <StyledCard>
             <StyledContainer>
-                <Title>App de Teste </Title>
-                <StyledForm>
+                <Form>
+                    <Title>Formulário de Cadastro </Title>
                     <Row>
-                        <FormLabel column sm='1'>
-                            Nome:
-                        </FormLabel>
-                        <Col sm='3'>
+                        <Col column sm='1'>
+                            <StyledLabel>Nome:</StyledLabel>
+                        </Col>
+                        <Col>
                             <FormControl
                                 required
                                 placeholder='Nome'
+                                value={name}
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
                             />
                         </Col>
                         <Col column sm='1'>
-                            <FormLabel>Idade:</FormLabel>
+                            <StyledLabel>Idade:</StyledLabel>
                         </Col>
                         <Col sm='1'>
                             <FormControl
@@ -51,7 +52,7 @@ function RegisterForm() {
                         </Col>
 
                         <Col column sm='1'>
-                            <FormLabel>Estado Civil:</FormLabel>
+                            <StyledLabel>Estado Civil:</StyledLabel>
                         </Col>
                         <Col sm='2'>
                             <FormControl
@@ -64,7 +65,7 @@ function RegisterForm() {
                         </Col>
 
                         <Col column sm='1'>
-                            <FormLabel>CPF:</FormLabel>
+                            <StyledLabel>CPF:</StyledLabel>
                         </Col>
                         <Col sm='2'>
                             <FormControl
@@ -79,7 +80,7 @@ function RegisterForm() {
 
                     <Row>
                         <Col column sm='1'>
-                            <FormLabel>Estado:</FormLabel>
+                            <StyledLabel>Estado:</StyledLabel>
                         </Col>
                         <Col sm='2'>
                             <FormControl
@@ -92,7 +93,7 @@ function RegisterForm() {
                         </Col>
 
                         <Col className='col-md-offset-3' column sm='1'>
-                            <FormLabel>Cidade:</FormLabel>
+                            <StyledLabel>Cidade:</StyledLabel>
                         </Col>
                         <Col sm='5'>
                             <FormControl
@@ -104,16 +105,16 @@ function RegisterForm() {
                             />
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className='col-md-offset-6 col-centered'>
+                    <Row className='justify-content-md-center'>
+                        <Col xs lg='2'>
                             <StyledButton variant='primary' type='submit' onClick={handleSubmit}>
                                 Salvar
                             </StyledButton>
                         </Col>
                     </Row>
-                </StyledForm>
+                </Form>
             </StyledContainer>
-        </Jumbotron>
+        </StyledCard>
     );
 }
 
