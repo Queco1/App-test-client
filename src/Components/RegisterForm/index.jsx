@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FormControl, Row, Col, Form } from 'react-bootstrap';
 import { StyledButton, Title, StyledContainer, StyledCard, StyledLabel } from './styled';
@@ -11,6 +11,17 @@ function RegisterForm({ data }) {
     const [state, setState] = useState(data?.state || '');
     const [city, setCity] = useState(data?.city || '');
     const history = useHistory();
+    const [cityAsIBGE, setcityAsIBGE] = useState([]);
+
+    useEffect(() => {
+        if (!cityAsIBGE) {
+            fetch('https://servicodados.ibge.gov.br/api/v1/localidades/distritos')
+                .then((res) => res.json())
+                .then((res) => {
+                    setcityAsIBGE(res);
+                });
+        }
+    }, [cityAsIBGE]);
 
     const handleSubmit = useCallback(() => {
         const register = { name, age, maritalStatus, CPF, state, city };
@@ -99,10 +110,16 @@ function RegisterForm({ data }) {
                             <FormControl
                                 required
                                 placeholder='Cidade'
+                                as='select'
                                 onChange={(e) => {
                                     setCity(e.target.value);
                                 }}
-                            />
+                            >
+                                {cityAsIBGE &&
+                                    cityAsIBGE?.map((citie) => {
+                                        return <option value={citie.nome}>{citie.nome}</option>;
+                                    })}
+                            </FormControl>
                         </Col>
                     </Row>
                     <Row className='justify-content-md-center'>

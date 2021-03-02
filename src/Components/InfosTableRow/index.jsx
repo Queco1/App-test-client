@@ -1,22 +1,25 @@
 import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ButtonsContainer, StyledButtons } from './styled';
 import InfoModal from '../InfoModal';
 
 function InfosTableRow({ record }) {
     const { name, age, city } = record;
     const [openInfoModal, setOpenInfoModal] = useState(false);
+    const history = useHistory();
 
     const toggleInfoModal = useCallback(() => {
         setOpenInfoModal(!openInfoModal);
     }, [openInfoModal]);
 
     const handleRemove = useCallback(() => {
-        console.log(`remove ${name}`);
+        console.log('remove');
     }, []);
 
     const handleEditing = useCallback(() => {
-        console.log(`editing ${name}`);
-    }, []);
+        localStorage.setItem('EditUser', JSON.stringify(record));
+        history.push('/');
+    }, [record]);
 
     return (
         <>

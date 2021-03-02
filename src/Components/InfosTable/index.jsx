@@ -1,33 +1,56 @@
-import React from 'react';
-import { Jumbotron, Table } from 'react-bootstrap';
+import React, { useState, useMemo } from 'react';
+import { Table, Pagination, Card } from 'react-bootstrap';
 import InfosTableRow from '../InfosTableRow';
-import { StyledTableFooter } from './styled';
+import { StyledTableFooter, StyledRow, StyledPagination } from './styled';
+import { StyledCard } from '../RegisterForm/styled';
 
 function InfoTable() {
-    const records = [JSON.parse(localStorage.getItem('Register'))];
-    // const PaginetedRecord = useMemo(() => records?.slice(offset, limit));
+    const records = [
+        JSON.parse(localStorage.getItem('Register')),
+        JSON.parse(localStorage.getItem('Register')),
+        JSON.parse(localStorage.getItem('Register')),
+        { name: 'Pedro', age: 14, city: 'Juiz de Fora' },
+    ];
+    const [offset, setOffset] = useState(0);
+    const [limit] = useState(2);
+    const paginetedRecord = useMemo(() => records?.slice(offset, offset + limit));
+
     return (
-        <Jumbotron>
-            <Table striped bordered hover responsive='sm'>
+        <StyledCard>
+            <Card.Title className=' text-center text-dark'>Pessoas Cadastradas</Card.Title>
+            <Table striped hover responsive='sm'>
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
                         <th className='hidden-xs'>Idade</th>
                         <th className='hidden-xs'>Cidade</th>
-                        <th>Detalhes</th>
+                        <th className='col-md-'>Detalhes</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {records?.map((record) => {
+                    {paginetedRecord?.map((record) => {
                         return <InfosTableRow record={record} />;
                     })}
                 </tbody>
                 <StyledTableFooter>
-                    <tr>#</tr>
+                    <StyledRow>
+                        <StyledPagination>
+                            <Pagination.Prev
+                                onClick={() => {
+                                    setOffset(offset === 0 ? 0 : offset - limit);
+                                }}
+                            />
+                            <Pagination.Next
+                                onClick={() => {
+                                    setOffset(offset === records.length - limit - 1 ? offset : offset + limit);
+                                }}
+                            />
+                        </StyledPagination>
+                    </StyledRow>
                 </StyledTableFooter>
             </Table>
-        </Jumbotron>
+        </StyledCard>
     );
 }
 
