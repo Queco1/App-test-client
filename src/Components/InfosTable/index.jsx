@@ -1,18 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Table, Pagination, Card } from 'react-bootstrap';
 import InfosTableRow from '../InfosTableRow';
 import { StyledTableFooter, StyledRow, StyledPagination } from './styled';
 import { StyledCard } from '../RegisterForm/styled';
+import http from '../../Config/Axios';
 
 function InfoTable() {
-    const records = [
-        JSON.parse(localStorage.getItem('Register')),
-        JSON.parse(localStorage.getItem('Register')),
-        JSON.parse(localStorage.getItem('Register')),
-        { name: 'Pedro', age: 14, city: 'Juiz de Fora' },
-    ];
+    const [records, setRecords] = useState([]);
     const [offset, setOffset] = useState(0);
     const [limit] = useState(2);
+
+    useEffect(async () => {
+        if (records.length === 0) {
+            const getAllUsers = await http.get('/user');
+
+            setRecords(getAllUsers.data);
+        }
+    }, [records]);
+
     const paginetedRecord = useMemo(() => records?.slice(offset, offset + limit));
 
     return (
@@ -30,7 +35,8 @@ function InfoTable() {
                 </thead>
                 <tbody>
                     {paginetedRecord?.map((record) => {
-                        return <InfosTableRow record={record} />;
+                        // eslint-disable-next-line no-underscore-dangle
+                        return <InfosTableRow key={`${record._id}`} record={record} />;
                     })}
                 </tbody>
                 <StyledTableFooter>

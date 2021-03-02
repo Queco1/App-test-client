@@ -4,7 +4,7 @@ import { ButtonsContainer, StyledButtons } from './styled';
 import InfoModal from '../InfoModal';
 
 function InfosTableRow({ record }) {
-    const { name, age, city } = record;
+    const { name, age, city, _id: id } = record;
     const [openInfoModal, setOpenInfoModal] = useState(false);
     const history = useHistory();
 
@@ -23,7 +23,7 @@ function InfosTableRow({ record }) {
 
     return (
         <>
-            <tr>
+            <tr key={id}>
                 <td>1</td>
                 <td>{name || ''}</td>
                 <td className='hidden-xs'>{age || ''}</td>

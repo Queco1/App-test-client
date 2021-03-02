@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FormControl, Row, Col, Form } from 'react-bootstrap';
 import { StyledButton, Title, StyledContainer, StyledCard, StyledLabel } from './styled';
+import http from '../../Config/Axios';
 
 function RegisterForm({ data }) {
     const [name, setName] = useState(data?.name || '');
@@ -10,23 +11,24 @@ function RegisterForm({ data }) {
     const [CPF, setCPF] = useState(data?.CPF || '');
     const [state, setState] = useState(data?.state || '');
     const [city, setCity] = useState(data?.city || '');
+
+    const [cityAsIBGE] = useState([{ nome: 'Teste' }, { nome: 'Bairro' }]);
+
     const history = useHistory();
-    const [cityAsIBGE, setcityAsIBGE] = useState([]);
 
-    useEffect(() => {
-        if (!cityAsIBGE) {
-            fetch('https://servicodados.ibge.gov.br/api/v1/localidades/distritos')
-                .then((res) => res.json())
-                .then((res) => {
-                    setcityAsIBGE(res);
-                });
-        }
-    }, [cityAsIBGE]);
+    // useEffect(async () => {
+    //     if (!cityAsIBGE) {
+    //         const cities = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/distritos');
+    //         setCityAsIBGE(await cities.json());
+    //         console.log('here');
+    //     }
+    //     console.log('here2');
+    // }, [cityAsIBGE]);
 
-    const handleSubmit = useCallback(() => {
+    const handleSubmit = useCallback(async () => {
         const register = { name, age, maritalStatus, CPF, state, city };
+        await http.post('/user', register);
 
-        localStorage.setItem('Register', JSON.stringify(register));
         history.push('/list');
     }, [name, age, maritalStatus, CPF, state, city]);
 
@@ -124,7 +126,7 @@ function RegisterForm({ data }) {
                     </Row>
                     <Row className='justify-content-md-center'>
                         <Col xs lg='2'>
-                            <StyledButton variant='primary' type='submit' onClick={handleSubmit}>
+                            <StyledButton variant='primary' type='submit' onClick={handleSubmit} className='btn btn-success'>
                                 Salvar
                             </StyledButton>
                         </Col>
