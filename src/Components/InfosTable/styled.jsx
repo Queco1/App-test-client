@@ -6,9 +6,3 @@ export const StyledTableFooter = styled.tfoot`
     z-index: 2;
     padding: 0;
 `;
-
-export const styledd = styled.tfoot`
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-`;
