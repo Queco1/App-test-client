@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FaInfo, FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import { ButtonsContainer, StyledButtons } from './styled';
 import InfoModal from '../InfoModal';
 import http from '../../Config/http-comunication';
@@ -19,9 +20,10 @@ function InfosTableRow({ record }) {
     const handleRemove = useCallback(async () => {
         try {
             await http.delete(`/user/${id}`);
+            toast.success('Removido com sucesso!', { position: 'bottom-right', autoClose: 5000, closeOnClick: true, progress: undefined });
             history.push('/');
         } catch (error) {
-            console.log(error);
+            toast.error('Ocorreu um erro!', { position: 'bottom-right', autoClose: 5000, closeOnClick: true, progress: undefined });
         }
     }, [record]);
 

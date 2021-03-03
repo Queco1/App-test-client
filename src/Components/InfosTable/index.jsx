@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Table, Pagination, Card } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import InfosTableRow from '../InfosTableRow';
 import { StyledTableFooter, StyledRow, StyledPagination, StyledColumnFooter } from './styled';
 import { StyledCard } from '../Formulary/styled';
@@ -12,9 +13,13 @@ function InfoTable() {
 
     useEffect(async () => {
         if (!records.length) {
-            const getAllUsers = await http.get('/user');
+            try {
+                const getAllUsers = await http.get('/user');
 
-            setRecords(getAllUsers.data);
+                setRecords(getAllUsers.data);
+            } catch (error) {
+                toast.error('Ocorreu um erro!', { position: 'bottom-right', autoClose: 5000, closeOnClick: true, progress: undefined });
+            }
         }
     }, [records]);
 
