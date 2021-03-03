@@ -1,17 +1,17 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Table, Pagination, Card } from 'react-bootstrap';
 import InfosTableRow from '../InfosTableRow';
-import { StyledTableFooter, StyledRow, StyledPagination } from './styled';
-import { StyledCard } from '../RegisterForm/styled';
-import http from '../../Config/Axios';
+import { StyledTableFooter, StyledRow, StyledPagination, StyledColumnFooter } from './styled';
+import { StyledCard } from '../Formulary/styled';
+import http from '../../Config/http-comunication';
 
 function InfoTable() {
     const [records, setRecords] = useState([]);
     const [offset, setOffset] = useState(0);
-    const [limit] = useState(2);
+    const limit = 5;
 
     useEffect(async () => {
-        if (records.length === 0) {
+        if (!records.length) {
             const getAllUsers = await http.get('/user');
 
             setRecords(getAllUsers.data);
@@ -26,11 +26,10 @@ function InfoTable() {
             <Table striped hover responsive='sm'>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nome</th>
+                        <th scope='col'>Nome</th>
                         <th className='hidden-xs'>Idade</th>
                         <th className='hidden-xs'>Cidade</th>
-                        <th className='col-md-'>Detalhes</th>
+                        <th scope='col'>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,18 +40,20 @@ function InfoTable() {
                 </tbody>
                 <StyledTableFooter>
                     <StyledRow>
-                        <StyledPagination>
-                            <Pagination.Prev
-                                onClick={() => {
-                                    setOffset(offset === 0 ? 0 : offset - limit);
-                                }}
-                            />
-                            <Pagination.Next
-                                onClick={() => {
-                                    setOffset(offset === records.length - limit - 1 ? offset : offset + limit);
-                                }}
-                            />
-                        </StyledPagination>
+                        <StyledColumnFooter>
+                            <StyledPagination>
+                                <Pagination.Prev
+                                    onClick={() => {
+                                        setOffset(offset === 0 ? 0 : offset - limit);
+                                    }}
+                                />
+                                <Pagination.Next
+                                    onClick={() => {
+                                        setOffset(offset >= records.length - limit ? offset : offset + limit);
+                                    }}
+                                />
+                            </StyledPagination>
+                        </StyledColumnFooter>
                     </StyledRow>
                 </StyledTableFooter>
             </Table>

@@ -1,50 +1,59 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FaInfo, FaEdit } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md';
 import { ButtonsContainer, StyledButtons } from './styled';
 import InfoModal from '../InfoModal';
+import http from '../../Config/http-comunication';
 
 function InfosTableRow({ record }) {
     const { name, age, city, _id: id } = record;
     const [openInfoModal, setOpenInfoModal] = useState(false);
+
     const history = useHistory();
 
     const toggleInfoModal = useCallback(() => {
         setOpenInfoModal(!openInfoModal);
     }, [openInfoModal]);
 
-    const handleRemove = useCallback(() => {
-        console.log('remove');
-    }, []);
+    const handleRemove = useCallback(async () => {
+        try {
+            await http.delete(`/user/${id}`);
+            history.push('/');
+        } catch (error) {
+            console.log(error);
+        }
+    }, [record]);
 
-    const handleEditing = useCallback(() => {
-        localStorage.setItem('EditUser', JSON.stringify(record));
-        history.push('/');
+    const handleEdit = useCallback(() => {
+        history.push(`/${id}`);
     }, [record]);
 
     return (
         <>
-            <tr key={id}>
-                <td>1</td>
-                <td>{name || ''}</td>
-                <td className='hidden-xs'>{age || ''}</td>
-                <td className='hidden-xs'>{city || ''}</td>
+            {record && (
+                <tr key={id}>
+                    <td className='col-xs-1'>{name || ''}</td>
+                    <td className='hidden-xs'>{age || ''}</td>
+                    <td className='hidden-xs'>{city || ''}</td>
 
-                <td>
-                    <InfoModal open={openInfoModal} close={toggleInfoModal} data={record} />
-                    <ButtonsContainer>
-                        <StyledButtons variant='primary' onClick={toggleInfoModal}>
-                            Detalhes
-                        </StyledButtons>
+                    <td>
+                        <InfoModal open={openInfoModal} close={toggleInfoModal} data={record} />
+                        <ButtonsContainer>
+                            <StyledButtons variant='dark' onClick={toggleInfoModal}>
+                                <FaInfo />
+                            </StyledButtons>
 
-                        <StyledButtons variant='primary' onClick={handleEditing}>
-                            Editar
-                        </StyledButtons>
-                        <StyledButtons variant='primary' onClick={handleRemove}>
-                            Remover
-                        </StyledButtons>
-                    </ButtonsContainer>
-                </td>
-            </tr>
+                            <StyledButtons variant='dark' onClick={handleEdit}>
+                                <FaEdit />
+                            </StyledButtons>
+                            <StyledButtons variant='dark' onClick={handleRemove}>
+                                <MdDelete />
+                            </StyledButtons>
+                        </ButtonsContainer>
+                    </td>
+                </tr>
+            )}
         </>
     );
 }

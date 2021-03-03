@@ -1,19 +1,24 @@
 import styled from 'styled-components';
-import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
-
-export const StyledContainer = styled(Container)`
-    margin: 0;
-    display: flex;
-`;
+import { Navbar, Nav } from 'react-bootstrap';
 
 export const StyledNavbar = styled(Navbar)`
-    margin-left: 0;
+    justify-content: center;
     border-radius: 0;
-    display: flex;
-    justify-content: flex-end;
 `;
 
-export const StyledNavbarLogo = styled(NavbarBrand)`
-    margin: 0;
-    justify-self ;
+export const StyledNavLogo = styled(Nav)`
+    color: white;
+
+    :hover {
+        filter: brightness(0.25);
+    }
+`;
+
+export const StyledNav = styled(Nav)`
+    color: white;
+    font-size: 2em;
+    justify-self: end !important;
+    :hover {
+        filter: brightness(0.25);
+    }
 `;

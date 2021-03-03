@@ -12,6 +12,10 @@ export const StyledRow = styled.tr`
     margin: 0 !important;
 `;
 
+export const StyledColumnFooter = styled.th`
+    border: none !important;
+`;
+
 export const StyledPagination = styled(Pagination)`
     border-color: white;
     margin: 0 !important;

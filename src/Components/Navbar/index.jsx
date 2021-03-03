@@ -1,24 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { NavbarBrand, FormGroup } from 'react-bootstrap';
-import { StyledNavbar, StyledContainer } from './styled';
+import { FaRegListAlt, FaList } from 'react-icons/fa';
+import { StyledNavbar, StyledNavLogo, StyledNav } from './styled';
 
 function NavbarProvider() {
     return (
         <StyledNavbar bg='dark' variant='dark'>
-            <StyledContainer>
-                <NavbarBrand as={Link} to='/'>
-                    Exemplo de Teste
-                </NavbarBrand>
-                <FormGroup>
-                    <NavbarBrand as={Link} to='/'>
-                        Adicionar
-                    </NavbarBrand>
-                    <NavbarBrand as={Link} to='/list'>
-                        Listagem
-                    </NavbarBrand>
-                </FormGroup>
-            </StyledContainer>
+            <StyledNav as={Link} to='/' className='hidden-xs mr-sm-2'>
+                Adicionar
+            </StyledNav>
+            <StyledNavLogo as={Link} to='/'>
+                <FaRegListAlt size={42} className='col-sm-2' />
+            </StyledNavLogo>
+            <StyledNav as={Link} to='/list' className='hidden-xs mr-sm-2 '>
+                Listagem
+            </StyledNav>
+            <StyledNavLogo as={Link} to='/list'>
+                <FaList size={42} className='col-sm-2' />
+            </StyledNavLogo>
         </StyledNavbar>
     );
 }
