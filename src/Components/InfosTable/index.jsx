@@ -38,10 +38,11 @@ function InfoTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {paginetedRecord?.map((record) => {
-                        // eslint-disable-next-line no-underscore-dangle
-                        return <InfosTableRow key={`${record._id}`} record={record} />;
-                    })}
+                    {paginetedRecord &&
+                        paginetedRecord?.map((record) => {
+                            // eslint-disable-next-line no-underscore-dangle
+                            return <InfosTableRow key={`${record._id}`} record={record} />;
+                        })}
                 </tbody>
                 <StyledTableFooter>
                     <StyledRow>
